@@ -1,4 +1,4 @@
-Package: GWAS_meta
+Package: GWASmeta
 Type: Package
 Title: Rapid calculation of ABF for GWAS meta-analysis
 Version: 0.1.0
