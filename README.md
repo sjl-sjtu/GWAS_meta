@@ -3,6 +3,6 @@ This package provids three methods to get optimal ABF of single SNP and a phenot
 
 Install the package as the following:
 ```R
+library(devtools)
 devtools::install_github("sjl-sjtu/GWAS_meta")
-library(GWAS_meta)
 ```
