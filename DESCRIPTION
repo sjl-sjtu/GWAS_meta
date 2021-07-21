@@ -1,15 +1,14 @@
-Package: bnmr
+Package: GWAS_meta
 Type: Package
-Title: A package to conduct Bayesian Mendelian randomization based on Bayesian Network on GWAS data
+Title: Rapid calculation of ABF for GWAS meta-analysis
 Version: 0.1.0
 Author: Sun Jianle
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: A package to conduct causal estimation between exposure and outcome on GWAS data using the adaptive Bayesian Mendelian randomization in the presence of pleiotropy after IV selection by Bayesian network learning.
+Description: Providing three methods to get optimal ABF in Bayesian GWAS meta-analysis including Subset-Exhaustive, MCMC and shotgun stochastic search.  
 License: GPL
 Encoding: UTF-8
-LazyData: False
+LazyData: true
 Imports:
-    bnlearn,
-    rstan,
-    MendelianRandomization
+    MASS,
+	dplyr
 RoxygenNote: 7.1.1
