@@ -1,0 +1,15 @@
+Package: bnmr
+Type: Package
+Title: A package to conduct Bayesian Mendelian randomization based on Bayesian Network on GWAS data
+Version: 0.1.0
+Author: Sun Jianle
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: A package to conduct causal estimation between exposure and outcome on GWAS data using the adaptive Bayesian Mendelian randomization in the presence of pleiotropy after IV selection by Bayesian network learning.
+License: GPL
+Encoding: UTF-8
+LazyData: False
+Imports:
+    bnlearn,
+    rstan,
+    MendelianRandomization
+RoxygenNote: 7.1.1
