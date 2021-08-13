@@ -259,8 +259,9 @@ mcmc.abf<-function(betas,ses,prior.sigma,prior.cor="indep",prior.rho=NA,cryptic.
   }
 
   getmode <- function(v){
-    uniqv <- unique(v)
-    uniqv[which.max(tabulate(match(v, uniqv)))]
+    #uniqv <- unique(v)
+    #uniqv[which.max(tabulate(match(v, uniqv)))]
+    return(mean(v))
   }
 
   ABFfinall<-getmode(tail(ABFlist,ceiling(n.iter/2)))
