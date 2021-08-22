@@ -129,24 +129,6 @@ abline(v=df3[1,1],lwd=2,col="blue")
 hist(shotgun1000,xlab="log ABF",breaks=15,main="shotgun, n.iter=1000")
 abline(v=df3[1,1],lwd=2,col="blue")
 
-df8 <- read.csv("sim3_sum.csv",row.names= 1)
-df8
-df8plot <- data.frame(value=unlist(df8[1,seq(1,22,2)],use.names = FALSE),time=unlist(df8[1,seq(2,22,2)],use.names = FALSE))
-df8plot$name <- c("max","mcmc,1000","mcmc,5000","mcmc,10000",
-                  "mcmc,20000","mcmc,50000","shotgun,100","shotgun,200",
-                  "shotgun,500","shotgun,1000","shotgun,2000")
-df8plot$name <- fct_inorder(df3plot$name)
-df8plot
-ggplot(df8plot)+geom_col(aes(name,value))+
-  labs(y="mean logABF",x="method")+
-  coord_flip()+
-  my_theme
-
-ggplot(df8plot)+geom_col(aes(name,time))+
-  labs(y="time",x="method")+
-  coord_flip()+
-  my_theme
-
 df1_1 <- read.csv("sim1-1.csv",row.names=1)
 colnames(df1_1)[2]<-"FEM"
 colnames(df1_1)[3]<-"REM"
