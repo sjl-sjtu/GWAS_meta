@@ -8,6 +8,9 @@ devtools::install_github("sjl-sjtu/GWAS_meta")
 ```
 This package is modified based on the Bayesian meta-analysis package "metabf" which is available at https://github.com/trochet/metabf. We appreciate the authors' work and details about the original edition can be found at [[1]](#rf1).
 
+## Software
+An website software to conduct GWAS meta-analysis using SMetABF is developed based on R Shiny.
+
 ## Reference
 <div id="rf1"></div>
 [1] Trochet, H., Pirinen, M., Band, G., Jostins, L., McVean, G., & Spencer, C. (2019). Bayesian meta-analysis across genome-wide association studies of diverse phenotypes. Genetic epidemiology, 43(5), 532–547. https://doi.org/10.1002/gepi.22202
