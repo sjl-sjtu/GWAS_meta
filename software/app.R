@@ -107,6 +107,9 @@ server = function(input,output,session){
         vses <- seq(3,ncol(df),2)
         re <- sapply(seq(1,nrow(df)),get_abf)
         abf <- data.frame(SNP=re[1,],ABF=re[2,])
+        abf$ABF <- as.numeric(abf$ABF)
+        abf$ABF <- round(abf$ABF,4)
+        abf <- arrange(abf,desc(ABF))
       }
       return(abf)
     })
