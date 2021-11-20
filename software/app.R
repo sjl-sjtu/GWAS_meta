@@ -91,8 +91,9 @@ server = function(input,output,session){
       if(input$type == "single SNP") {
         betas = df[,1]
         ses = df[,2]
-        abf = shotgun.abf(betas,ses,prior.sigma,prior.cor,prior.rho,
+        ABF = shotgun.abf(betas,ses,prior.sigma,prior.cor,prior.rho,
                           cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
+        abf = data.frame(ABF=ABF)
       }
       else {
         get_abf <- function(i){
