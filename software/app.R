@@ -10,7 +10,6 @@ ui <- fluidPage(
         tabPanel("single SNP",img(src = "single.png")),
         tabPanel("multiple SNPs",img(src = "multiple.png",height = 280, width = 450))
       ),
-      #p(uiOutput("forma")),
       fileInput("upload","Choose CSV File",
                 multiple = FALSE,
                 accept = c("text/csv",
@@ -31,7 +30,7 @@ ui <- fluidPage(
                    selected = '"')
       
     ),
-    column(4,
+    column(3,
         h4("parameters for calculation"),
         numericInput("num1", "prior sigma",
                        value = 0.5, min = 0, max = 1),
@@ -39,32 +38,33 @@ ui <- fluidPage(
         numericInput("num2", "prior rho",
                        value = 0.5, min = 0, max = 1),
         sliderInput("iter", "iteration set",
-                      value = 50, min = 0, max = 200),
+                      value = 50, min = 0, max = 500),
         radioButtons("return", "Choose the return form", choices = c("log10","log2","origin")),
-        actionButton("do", "Confirm")
+        actionButton("do", "Confirm"),
+        #p(uiOutput("forma")),
+        p(uiOutput("forma1"))
     ),
     column(3,
-      h2("results"),
+      h2("top 20 lines of results"),
+      downloadButton("downloadData", "Download"),
       tags$hr(),
-      tableOutput("contents")
+      tableOutput("showData")
     )
   )   
 )
 
 server = function(input,output,session){
   observeEvent(input$do,{
-    output$contents <- renderTable({
-      # input$upload will be NULL initially. After the user selects
-      # and uploads a file, head of that data file by default,
-      # or all rows if selected, will be shown.
-      output$forma <- renderUI(input$type)
+    #output$forma <- renderText("The program is running, please wait...")
+    calABF <- function(input,output){
       prior.sigma <- input$num1
       prior.cor <- input$prior
-      prior.rho <- input$num2  
-      if(input$return=="log10"){
+      prior.rho <- input$num2
+      return <- input$return
+      if(return=="log10"){
         log=FALSE
         log10=TRUE
-      }else if(input$return=="log2"){
+      }else if(return=="log2"){
         log=TRUE
         log10=FALSE
       }else{
@@ -113,7 +113,22 @@ server = function(input,output,session){
         abf <- arrange(abf,desc(ABF))
       }
       return(abf)
+    }
+    abfL <- reactive({
+      calABF(input,output)
     })
+    abf <- abfL()
+    output$forma1 <- renderText("Program has been finished")
+    output$showData <- renderTable({
+      head(abf,20)
+    })
+    output$downloadData <- downloadHandler(
+      filename = function() {
+        "abf_results.csv"
+      },
+      content = function(file) {
+        write.csv(abf, file, row.names = FALSE)
+      })
   })
 }
 
