@@ -3,3 +3,4 @@
 export(exh.abf)
 export(mcmc.abf)
 export(shotgun.abf)
+export(shotgun.abfModel)
