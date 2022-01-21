@@ -2,5 +2,6 @@
 
 export(exh.abf)
 export(mcmc.abf)
+export(multi_shotgun_abf)
 export(shotgun.abf)
 export(shotgun.abfModel)
