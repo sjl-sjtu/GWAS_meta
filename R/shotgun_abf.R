@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-shotgun.abf<-function(betas,ses,prior.sigma,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
+shotgun.abf<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
   #If betas and ses are data frames, this checks if they can be turned into numeric vectors. Stops the calculation if this is not the case.
 
   library(MASS)

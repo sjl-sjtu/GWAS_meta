@@ -18,7 +18,7 @@
 #' @export
 #'
 #' @examples
-mcmc.abf<-function(betas,ses,prior.sigma,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=500){
+mcmc.abf<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=500){
   #If betas and ses are data frames, this checks if they can be turned into numeric vectors. Stops the calculation if this is not the case.
 
   library(MASS)
@@ -259,9 +259,8 @@ mcmc.abf<-function(betas,ses,prior.sigma,prior.cor="indep",prior.rho=NA,cryptic.
   }
 
   getmode <- function(v){
-    #uniqv <- unique(v)
-    #uniqv[which.max(tabulate(match(v, uniqv)))]
-    return(mean(v))
+    uniqv <- unique(v)
+    uniqv[which.max(tabulate(match(v, uniqv)))]
   }
 
   ABFfinall<-getmode(tail(ABFlist,ceiling(n.iter/2)))
