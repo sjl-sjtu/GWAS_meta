@@ -94,6 +94,7 @@ server = function(input,output,session){
         stop(safeError(e))
       }
     )
+    df[df==0] <- NA
     if(input$type == "single SNP") {
       betas = df[,1]
       ses = df[,2]
@@ -107,8 +108,14 @@ server = function(input,output,session){
       vbetas <- seq(2,ncol(df),2)
       vses <- seq(3,ncol(df),2)
       nstud <- length(vbetas)
+      if(length(vbetas)!=length(vses)){
+        return("Vectors betas and ses do not have the same length!")
+      }
+      if(length(vbetas)==1){
+        return("Only one study involved!")
+      }
       get_counts <- function(i){
-        cali <- as.numeric(is.na(df[i,vbetas]) | (df[i,vses] == 0))
+        cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
         cali <- 1-cali
         calistr <- paste(cali,collapse="")
         counts <- sum(cali==1)
@@ -147,9 +154,15 @@ server = function(input,output,session){
       calABF(input,output)
     })
     abf <- abfL()
-    output$showData <- renderTable({
-      head(abf,20)
-    })
+    if(class(abf)=="data.frame"){
+      output$showData <- renderTable({
+        head(abf,20)
+      })
+    }else{
+      output$showData <- renderTable({
+        abf
+      })
+    }
     output$downloadData <- downloadHandler(
       filename = function() {
         "abf_results.csv"
