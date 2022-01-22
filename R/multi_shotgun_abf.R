@@ -6,7 +6,6 @@
 #' @param vname the index of column of variant name in df. Default is 1.
 #' @param vbetas a vectors to represent the index of columns of those containing the effect sizes in each study, default is the column 2,4,6,etc.
 #' @param vses a vectors to represent the index of columns of those containing the corresponding standard errors in each study, default is the column 3,5,7,etc. The length of vses should be the same as the length of vbetas.
-#' @param needClean a boolean value. If it is TRUE, the detailed number of studies involved will be calculated for each variant. The studies with NA values in betas and zero values in ses will be cleaned for each variant.
 #' @param prior.sigma the prior on true effect sizes for each SNP in each study. It can be a flat value, set for each study (i.e. a vector whose length is equal to the number of studies in the meta-analysis) or set for each study and SNP (i.e. a matrix of same dimension as betas).
 #' @param prior.cor a square matrix whose row and column numbers are the same as the number of studies. Its elements are the pairwise correlations between true effect sizes of the studies. It can take values "indep" (independent effects), "fixed" (fixed effects), "correlated" (correlated effects, which requires the prior.rho parameter to be set), as well as individual matrices. If betas and ses are matrices, the same prior.cor will be applied to every row (representing every SNP).
 #' @param prior.rho either a single value or the upper triangle of a correlation matrix for the prior.cor matrix when it is set to "correlated". If this value is set, but prior.cor is not set to "correlated", this parameter will be ignored.
@@ -28,7 +27,7 @@
 #' @export
 #'
 #' @examples
-multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,ncol(df),2),needClean=TRUE,prior.sigma=0.5,
+multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,ncol(df),2),prior.sigma=0.5,
                               prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,
                               na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
   if(length(vbetas)!=length(vses)){
@@ -37,36 +36,24 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
   if(length(vbetas)==1){
     return(message("Only one study involved!"))
   }
-  get_counts <- function(i){
-    df[i,vbetas[which(is.na(df[i,vses]))]]<<-NA
-    df[i,vses[which(is.na(df[i,vbetas]))]]<<-NA
+  get_abf <- function(i){
     cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
     cali <- 1-cali
-    calistr <- paste(cali,collapse="")
-    counts <- sum(cali==1)
-    return(c(calistr,counts))
-  }
-  get_abf <- function(i){
+    studiesUsed <- paste(cali,collapse="")
+    nstudies <- sum(cali==1)
     SNP <- df[i,vname]
     betas <- df[i,vbetas]
     ses <- df[i,vses]
-    nstudies <- df[i,"counts"]
-    studiesUsed <- df[i,"studyuse"]
     abfi <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
                              cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
     abfvalue <- abfi$ABF
     submodel <- abfi$model
     return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
   }
-  if(needClean==FALSE){
-    df$studyuse <- paste(rep(1,length(vbetas)),collapse = "")
-    df$counts <- length(vbetas)
-  }else{
-    df[df==0] <- NA
-    ss <- sapply(seq(1,nrow(df)),get_counts)
-    df$studyuse <- ss[1,]
-    df$counts <- as.numeric(ss[2,])
-    df <- df[which(df$count>=2),]
+  df[df==0] <- NA
+  for(i in 1:nstud){
+    df[which(is.na(df[vbetas[i]])),vses[i]] <- NA
+    df[which(is.na(df[vses[i]])),vbetas[i]] <- NA
   }
   re <- sapply(seq(1,nrow(df)),get_abf)
   abf <- data.frame(SNP=re[1,],ABF=re[2,],model=re[3,],n_studies=re[4,],studies_involved=re[5,])

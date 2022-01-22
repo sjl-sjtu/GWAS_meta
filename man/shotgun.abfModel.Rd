@@ -7,7 +7,7 @@
 shotgun.abfModel(
   betas,
   ses,
-  prior.sigma,
+  prior.sigma = 0.3,
   prior.cor = "indep",
   prior.rho = NA,
   cryptic.cor = NA,
