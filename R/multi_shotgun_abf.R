@@ -1,9 +1,9 @@
 #' Title ABF calculation across multiple variants for GWAS meta-analysis through shotgun stochastic search
-#' 
+#'
 #' @description using shotgun stochastic search algorithm to quickly get the optimal ABF for multiple SNPs and a phenotype in GWAS meta-analysis.
-#' 
+#'
 #' @param df a data frame containing the names of variants, the effect sizes and standard errors for each variant in each study.
-#' @param vname the index of column of variant name in df. Default is 1. 
+#' @param vname the index of column of variant name in df. Default is 1.
 #' @param vbetas a vectors to represent the index of columns of those containing the effect sizes in each study, default is the column 2,4,6,etc.
 #' @param vses a vectors to represent the index of columns of those containing the corresponding standard errors in each study, default is the column 3,5,7,etc. The length of vses should be the same as the length of vbetas.
 #' @param needClean a boolean value. If it is TRUE, the detailed number of studies involved will be calculated for each variant. The studies with NA values in betas and zero values in ses will be cleaned for each variant.
@@ -19,7 +19,7 @@
 #' @param B the largest number of subsets involved in the optimal set. Default is 5.
 #'
 #' @return a data frame containing:
-#' 
+#'
 #' SNP: Variant Name
 #' ABF: the final ABF value calculated for each variant
 #' model: a string of 0-1 to represents the subset model selected to calculate.
@@ -38,7 +38,7 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     return(message("Only one study involved!"))
   }
   get_counts <- function(i){
-    cali <- as.numeric(is.na(df[i,vbetas]) | (df[i,vses] == 0))
+    cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
     cali <- 1-cali
     calistr <- paste(cali,collapse="")
     counts <- sum(cali==1)
@@ -56,6 +56,7 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     submodel <- abfi$model
     return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
   }
+  df[df==0] <- NA
   if(needClean==FALSE){
     df$studyuse <- paste(rep(1,length(vbetas)),collapse = "")
     df$counts <- length(vbetas)
