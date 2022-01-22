@@ -38,6 +38,8 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     return(message("Only one study involved!"))
   }
   get_counts <- function(i){
+    df[i,vbetas[which(is.na(df[i,vses]))]]<<-NA
+    df[i,vses[which(is.na(df[i,vbetas]))]]<<-NA
     cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
     cali <- 1-cali
     calistr <- paste(cali,collapse="")
@@ -56,11 +58,11 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     submodel <- abfi$model
     return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
   }
-  df[df==0] <- NA
   if(needClean==FALSE){
     df$studyuse <- paste(rep(1,length(vbetas)),collapse = "")
     df$counts <- length(vbetas)
   }else{
+    df[df==0] <- NA
     ss <- sapply(seq(1,nrow(df)),get_counts)
     df$studyuse <- ss[1,]
     df$counts <- as.numeric(ss[2,])
