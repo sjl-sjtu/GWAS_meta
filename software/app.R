@@ -94,7 +94,6 @@ server = function(input,output,session){
         stop(safeError(e))
       }
     )
-    df[df==0] <- NA
     if(input$type == "single SNP") {
       betas = df[,1]
       ses = df[,2]
@@ -115,12 +114,15 @@ server = function(input,output,session){
         return("Only one study involved!")
       }
       get_counts <- function(i){
+        df[i,vbetas[which(is.na(df[i,vses]))]]<<-NA
+        df[i,vses[which(is.na(df[i,vbetas]))]]<<-NA
         cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
         cali <- 1-cali
         calistr <- paste(cali,collapse="")
         counts <- sum(cali==1)
         return(c(calistr,counts))
       }
+      df[df==0] <- NA
       ss <- sapply(seq(1,nrow(df)),get_counts)
       df$studyuse <- ss[1,]
       df$counts <- as.numeric(ss[2,])
