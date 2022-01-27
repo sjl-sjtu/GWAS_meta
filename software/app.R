@@ -104,6 +104,7 @@ server = function(input,output,session){
       abf = data.frame(ABF=ABF,model=submodel)
     }
     else {
+      vname <- 1
       vbetas <- seq(2,ncol(df),2)
       vses <- seq(3,ncol(df),2)
       nstud <- length(vbetas)
@@ -113,32 +114,32 @@ server = function(input,output,session){
       if(length(vbetas)==1){
         return("Only one study involved!")
       }
-      get_counts <- function(i){
-        df[i,vbetas[which(is.na(df[i,vses]))]]<<-NA
-        df[i,vses[which(is.na(df[i,vbetas]))]]<<-NA
-        cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
-        cali <- 1-cali
-        calistr <- paste(cali,collapse="")
-        counts <- sum(cali==1)
-        return(c(calistr,counts))
-      }
-      df[df==0] <- NA
-      ss <- sapply(seq(1,nrow(df)),get_counts)
-      df$studyuse <- ss[1,]
-      df$counts <- as.numeric(ss[2,])
-      df <- df[which(df$count>=2),]
       get_abf <- function(i){
-        SNP <- df[i,1]
+        SNP <- df[i,vname]
         betas <- df[i,vbetas]
         ses <- df[i,vses]
         nstudies <- df[i,"counts"]
-        studiesUsed <- df[i,"studyuse"]
-        abfi <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
-                                 cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
-        abfvalue <- abfi$ABF
-        submodel <- abfi$model
+        studiesUsed <- paste(1-as.numeric(is.na(betas)),collapse="")
+        tryCatch(
+          {
+            abfL <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
+                                     cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
+            abfvalue <- abfL$ABF
+            submodel <- abfL$model
+          },
+          error = function(e){
+            abfvalue <- NA
+            submodel <- "NA"
+          })
         return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
       }
+      df[df==0] <- NA
+      df[df==Inf] <- NA
+      for(i in 1:nstud){
+        df[which(is.na(df[vbetas[i]])),vses[i]] <- NA
+        df[which(is.na(df[vses[i]])),vbetas[i]] <- NA
+      }
+      df$counts <- nstud-rowSums(is.na(df[,vbetas]))
       re <- sapply(seq(1,nrow(df)),get_abf)
       abf <- data.frame(SNP=re[1,],ABF=re[2,],model=re[3,],n_studies=re[4,],studies_involved=re[5,])
       abf$ABF <- as.numeric(abf$ABF)
