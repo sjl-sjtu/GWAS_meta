@@ -47,3 +47,10 @@ the optimal ABF calculated
 \description{
 using MCMC algorithm to get the optimal ABF for a single SNP and a phenotype in GWAS meta-analysis.
 }
+\examples{
+library(GWASmeta)
+data(single)
+betas <- single$betas
+ses <- single$ses
+re <- mcmc_abf(betas,ses)
+}

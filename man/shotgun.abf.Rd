@@ -50,3 +50,10 @@ the optimal ABF calculated
 \description{
 using shotgun stochastic search algorithm to quickly get the optimal ABF for a single SNP and a phenotype in GWAS meta-analysis.
 }
+\examples{
+library(GWASmeta)
+data(single)
+betas <- single$betas
+ses <- single$ses
+re <- shotgun_abf(betas,ses)
+}

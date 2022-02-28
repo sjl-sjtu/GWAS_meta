@@ -27,6 +27,9 @@
 #' @export
 #'
 #' @examples
+#' library(GWASmeta)
+#' data(multi)
+#' re <- multi_shotgun_abf(multi)
 multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,ncol(df),2),prior.sigma=0.5,
                               prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,
                               na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
@@ -37,36 +40,28 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     return(message("Only one study involved!"))
   }
   get_abf <- function(i){
+    cali <- as.numeric(is.na(df[i,vbetas]) | is.na(df[i,vses]))
+    cali <- 1-cali
+    studiesUsed <- paste(cali,collapse="")
+    nstudies <- sum(cali==1)
     SNP <- df[i,vname]
     betas <- df[i,vbetas]
     ses <- df[i,vses]
-    nstudies <- df[i,"counts"]
-    studiesUsed <- paste(1-as.numeric(is.na(betas)),collapse="")
-    tryCatch(
-      {
-        abfL <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
-                                 cryptic.cor=,log,log10,na.rm,tolerance,n.iter,B)
-        abfvalue <- abfL$ABF
-        sModel <- abfL$model
-      },
-      error = function(e){
-        abfvalue <- NA
-        sModel <- "NA"
-      })
-    return(c(SNP,abfvalue,sModel,nstudies,studiesUsed))
+    abfi <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
+                             cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
+    abfvalue <- abfi$ABF
+    submodel <- abfi$model
+    return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
   }
   df[df==0] <- NA
-  df[df==Inf] <- NA
   for(i in 1:nstud){
     df[which(is.na(df[vbetas[i]])),vses[i]] <- NA
     df[which(is.na(df[vses[i]])),vbetas[i]] <- NA
   }
-  df$counts <- nstud-rowSums(is.na(df[,vbetas]))
   re <- sapply(seq(1,nrow(df)),get_abf)
-  abf <- data.frame(SNP=re[1,],ABF=re[2,],model=re[3,],n_studies=re[4,],studies_involved=re[5,],stringsAsFactors = FALSE)
-  abf$n_studies <- as.numeric(abf$n_studies)
+  abf <- data.frame(SNP=re[1,],ABF=re[2,],model=re[3,],n_studies=re[4,],studies_involved=re[5,])
   abf$ABF <- as.numeric(abf$ABF)
   abf$ABF <- round(abf$ABF,4)
   abf <- arrange(abf,desc(ABF))
-  return(abf)
+  return(df)
 }

@@ -62,3 +62,8 @@ studies_involved: a string of 0-1 to represents the studies involved for each va
 \description{
 using shotgun stochastic search algorithm to quickly get the optimal ABF for multiple SNPs and a phenotype in GWAS meta-analysis.
 }
+\examples{
+library(GWASmeta)
+data(multi)
+re <- multi_shotgun_abf(multi)
+}
