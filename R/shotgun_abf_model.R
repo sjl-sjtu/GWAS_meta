@@ -16,10 +16,8 @@
 #' @param B the largest number of subsets involved in the optimal set. Default is 5.
 #'
 #' @return a list containing:
-#'
-#' ABF: the optimal ABF calculated
-#'
-#' model: the optimal subset model
+#' \item{ABF}{the optimal ABF calculated}
+#' \item{model}{the optimal subset model}
 #' @export
 #'
 #' @examples
@@ -28,7 +26,8 @@
 #' betas <- single$betas
 #' ses <- single$ses
 #' re <- shotgun_abf_model(betas,ses)
-shotgun.abfModel<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
+#'
+shotgun_abf_model<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
   #If betas and ses are data frames, this checks if they can be turned into numeric vectors. Stops the calculation if this is not the case.
 
   library(MASS)

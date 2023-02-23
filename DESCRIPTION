@@ -11,4 +11,4 @@ LazyData: true
 Imports:
     MASS,
 	dplyr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1

@@ -17,22 +17,24 @@
 #' @param n.iter the number of iteration for MCMC. Default is 50.
 #' @param B the largest number of subsets involved in the optimal set. Default is 5.
 #'
-#' @return a data frame containing:
-#'
-#' SNP: Variant Name
-#' ABF: the final ABF value calculated for each variant
-#' model: a string of 0-1 to represents the subset model selected to calculate.
-#' n_studies: the number of studies involved for each variant. If needClean is FALSE, the value will be the same for all variants.
-#' studies_involved: a string of 0-1 to represents the studies involved for each variant. 1 represents the corresponding study is involved.
+#' @return a data frame containing the following columns:
+#' \item{SNP}{Variant Name}
+#' \item{ABF}{the final ABF value calculated for each variant}
+#' \item{model}{a string of 0-1 to represents the subset model selected to calculate.}
+#' \item{n_studies}{the number of studies involved for each variant. If needClean is FALSE, the value will be the same for all variants.}
+#' \item{studies_involved}{a string of 0-1 to represents the studies involved for each variant. 1 represents the corresponding study is involved.}
 #' @export
 #'
 #' @examples
 #' library(GWASmeta)
 #' data(multi)
 #' re <- multi_shotgun_abf(multi)
+#'
 multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,ncol(df),2),prior.sigma=0.5,
                               prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,
                               na.rm=FALSE,tolerance=1e-1000,n.iter=50,B=5){
+  library(MASS)
+  library(dplyr)
   if(length(vbetas)!=length(vses)){
     return(message("Vectors betas and ses do not have the same length!"))
   }
@@ -47,13 +49,14 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
     SNP <- df[i,vname]
     betas <- df[i,vbetas]
     ses <- df[i,vses]
-    abfi <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
+    abfi <- shotgun_abf_model(betas,ses,prior.sigma,prior.cor,prior.rho,
                              cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
     abfvalue <- abfi$ABF
     submodel <- abfi$model
     return(c(SNP,abfvalue,submodel,nstudies,studiesUsed))
   }
   df[df==0] <- NA
+  nstud <- length(vbetas)
   for(i in 1:nstud){
     df[which(is.na(df[vbetas[i]])),vses[i]] <- NA
     df[which(is.na(df[vses[i]])),vbetas[i]] <- NA

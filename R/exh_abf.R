@@ -18,9 +18,12 @@
 #' @export
 #'
 #' @examples
-exh.abf<-function(betas,ses,prior.sigma,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,study.names=NULL,na.rm=FALSE,tolerance=1e-1000){
+#'
+exh_abf<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rho=NA,cryptic.cor=NA,log=FALSE,log10=FALSE,study.names=NULL,na.rm=FALSE,tolerance=1e-1000){
   #If betas and ses are data frames, this checks if they can be turned into numeric vectors. Stops the calculation if this is not the case.
   library(MASS)
+  library(dplyr)
+
   if(!class(betas) %in% c("data.frame","numeric")){
     stop("betas should be a numeric vector.")
   }
