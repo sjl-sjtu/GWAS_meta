@@ -15,7 +15,7 @@ ui <- fluidPage(
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
                            ".csv")),
-      selectInput("type", "Single or multiple SNPs to be analyzed?", 
+      selectInput("type", "Single or multiple SNPs to be analyzed?",
                   choices = c("single SNP","multiple SNPs")),
       checkboxInput("header", "Header", TRUE),
       selectInput("sep", "Separator",
@@ -28,7 +28,7 @@ ui <- fluidPage(
                                "Double Quote" = '"',
                                "Single Quote" = "'"),
                    selected = '"')
-      
+
     ),
     column(3,
         h4("parameters for calculation"),
@@ -48,7 +48,7 @@ ui <- fluidPage(
       tags$hr(),
       tableOutput("showData")
     )
-  ), 
+  ),
   tags$head(
     tags$style(
       HTML(".shiny-notification {
@@ -79,7 +79,7 @@ server = function(input,output,session){
     }
     n.iter <- input$iter
     req(input$upload)
-    
+
     # when reading semicolon separated files,
     # having a comma separator causes `read.csv` to error
     tryCatch(
@@ -97,7 +97,7 @@ server = function(input,output,session){
     if(input$type == "single SNP") {
       betas = df[,1]
       ses = df[,2]
-      ABFl = shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
+      ABFl = shotgun_abf_model(betas,ses,prior.sigma,prior.cor,prior.rho,
                               cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
       ABF = ABFl$ABF
       submodel = ABFl$model
@@ -122,7 +122,7 @@ server = function(input,output,session){
         studiesUsed <- paste(1-as.numeric(is.na(betas)),collapse="")
         tryCatch(
           {
-            abfL <- shotgun.abfModel(betas,ses,prior.sigma,prior.cor,prior.rho,
+            abfL <- shotgun_abf_model(betas,ses,prior.sigma,prior.cor,prior.rho,
                                      cryptic.cor=NA,log,log10,na.rm,tolerance=1e-1000,n.iter,B=5)
             abfvalue <- abfL$ABF
             submodel <- abfL$model
@@ -184,3 +184,4 @@ server = function(input,output,session){
 }
 
 shinyApp(ui, server)
+shiny::runApp()
