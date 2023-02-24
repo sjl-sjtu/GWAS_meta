@@ -20,6 +20,6 @@ An web tool to conduct GWAS meta-analysis using SMetABF is developed based on R 
 ## Lisence
 This package is available under the GNU General Public License version 3.
 
-Revised at Feb.23,2023.
+Revision at Feb.24,2023.
 
-Contact: sjl-2017@sjtu.edu.cn
+Contact me: Jianle Sun (sjl-2017@sjtu.edu.cn)
