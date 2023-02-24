@@ -5,10 +5,10 @@ account: sunjianle-sjtu
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5169455
-bundleId: 6879523
+bundleId: 6881622
 url: https://sunjianle-sjtu.shinyapps.io/analycode/
-when: 1677167087.66913
-lastSyncTime: 1677167087.66914
+when: 1677205639.98637
+lastSyncTime: 1677205639.98637
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: example2.csv
+ignoredFiles: exampleData_multipleSNP.csv|exampleData_singleSNP.csv

@@ -1,65 +1,89 @@
 library(shiny)
 library(GWASmeta)
 
-ui <- fluidPage(
-  titlePanel("SMetABF for GWAS Meta-analysis"),
-  fluidRow(
-    column(4,
-      p("Please upload the corresponding format of file. Example data format:"),
-      tabsetPanel(
-        tabPanel("single SNP",img(src = "single.png")),
-        tabPanel("multiple SNPs",img(src = "multiple.png",height = 280, width = 450))
+ui <- tagList(
+  fluidPage(
+    titlePanel("SMetABF for GWAS Meta-analysis"),
+    fluidRow(
+      column(4,
+             p("Please upload the corresponding format of file. Example data format:"),
+             tabsetPanel(
+               tabPanel("single SNP",img(src = "single.png"),height = 150),
+               tabPanel("multiple SNPs",img(src = "multiple.png",height = 150, width = 400))
+             ),
+             fileInput("upload","Choose CSV File",
+                       multiple = FALSE,
+                       accept = c("text/csv",
+                                  "text/comma-separated-values,text/plain",
+                                  ".csv")),
+             selectInput("type", "Single or multiple SNPs to be analyzed?",
+                         choices = c("single SNP","multiple SNPs")),
+             checkboxInput("header", "Header", TRUE),
+             selectInput("sep", "Separator",
+                         choices = c(Comma = ",",
+                                     Semicolon = ";",
+                                     Tab = "\t"),
+                         selected = ","),
+             selectInput("quote", "Quote",
+                         choices = c(None = "",
+                                     "Double Quote" = '"',
+                                     "Single Quote" = "'"),
+                         selected = '"')
+             
       ),
-      fileInput("upload","Choose CSV File",
-                multiple = FALSE,
-                accept = c("text/csv",
-                           "text/comma-separated-values,text/plain",
-                           ".csv")),
-      selectInput("type", "Single or multiple SNPs to be analyzed?",
-                  choices = c("single SNP","multiple SNPs")),
-      checkboxInput("header", "Header", TRUE),
-      selectInput("sep", "Separator",
-                   choices = c(Comma = ",",
-                               Semicolon = ";",
-                               Tab = "\t"),
-                   selected = ","),
-      selectInput("quote", "Quote",
-                   choices = c(None = "",
-                               "Double Quote" = '"',
-                               "Single Quote" = "'"),
-                   selected = '"')
-
+      column(3,
+             h4("parameters for calculation"),
+             numericInput("num1", "prior sigma",
+                          value = 0.5, min = 0, max = 1),
+             radioButtons("prior", "Choose prior model", choices = c("fixed","correlated","independent")),
+             numericInput("num2", "prior rho",
+                          value = 0.5, min = 0, max = 1),
+             sliderInput("iter", "iteration set",
+                         value = 50, min = 0, max = 500),
+             radioButtons("return", "Choose the return form", choices = c("log10","log2","origin")),
+             actionButton("do", "Confirm"),
+      ),
+      column(4,
+             h3("Results"),
+             p("You can find details about the method: ", 
+               a(href='https://doi.org/10.1371/journal.pcbi.1009948',"Sun, Jianle et al. (2022).")),
+             fluidRow(
+             column(5,
+             numericInput("numsh", "show top N lines",
+                          value = 10, min = 1, max = 20)),
+             column(4,
+                    downloadButton("downloadData", "Download Full Results")),
+             ),
+             tags$hr(),
+             tableOutput("showData")
+      )
     ),
-    column(3,
-        h4("parameters for calculation"),
-        numericInput("num1", "prior sigma",
-                       value = 0.5, min = 0, max = 1),
-        radioButtons("prior", "Choose prior model", choices = c("fixed","correlated","independent")),
-        numericInput("num2", "prior rho",
-                       value = 0.5, min = 0, max = 1),
-        sliderInput("iter", "iteration set",
-                      value = 50, min = 0, max = 500),
-        radioButtons("return", "Choose the return form", choices = c("log10","log2","origin")),
-        actionButton("do", "Confirm"),
-    ),
-    column(4,
-      h2("top 20 lines of results"),
-      downloadButton("downloadData", "Download"),
-      tags$hr(),
-      tableOutput("showData")
-    )
-  ),
-  tags$head(
-    tags$style(
-      HTML(".shiny-notification {
+    tags$head(
+      tags$style(
+        HTML(".shiny-notification {
              position:fixed;
              top: calc(62%);;
              left: calc(35%);;
              }"
+        )
       )
+    ),
+    tags$footer(HTML("<footer>Citation: Sun, J. et al. (2022). SMetABF: A rapid algorithm for Bayesian GWAS meta-analysis with a large number of studies included. PLoS computational biology, 18(3), e1009948.
+                     <br>Contact me: Jianle Sun (sjl-2017@sjtu.edu.cn)</footer>"), 
+                align = "center", 
+                style = "
+                position:relative;
+                bottom:0;
+                width:100%;
+                height:50px; /* Height of the footer */
+                color: black;
+                padding: 10px;
+                background-color: white;
+                z-index: 1000;"
     )
   )
 )
+
 
 server = function(input,output,session){
   calABF <- function(input,output){
@@ -159,7 +183,7 @@ server = function(input,output,session){
     abf <- abfL()
     if(class(abf)=="data.frame"){
       output$showData <- renderTable({
-        head(abf,20)
+        head(abf,input$numsh)
       })
     }else{
       output$showData <- renderTable({
@@ -184,4 +208,3 @@ server = function(input,output,session){
 }
 
 shinyApp(ui, server)
-shiny::runApp()
