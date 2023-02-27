@@ -6,7 +6,7 @@ Install the package as the following:
 library(devtools)
 devtools::install_github("sjl-sjtu/GWAS_meta")
 ```
-Usage and example can be found at https://github.com/sjl-sjtu/GWAS_meta/blob/main/GWASmeta_0.1.0.pdf. You can cite the work and find more methodological details about the package at [[1]](#rf1). This package is modified based on the Bayesian meta-analysis package "metabf" which is available at https://github.com/trochet/metabf. We appreciate the authors' work and details about the original edition can be found at [[2]](#rf2).
+Usage and examples can be found at https://github.com/sjl-sjtu/GWAS_meta/blob/main/GWASmeta_0.1.0.pdf. You can cite the work and find more methodological details about the package at [[1]](#rf1). This package is modified based on the Bayesian meta-analysis package "metabf" which is available at https://github.com/trochet/metabf. We appreciate the authors' work and details about the original edition can be found at [[2]](#rf2).
 
 ## Software
 An web tool to conduct GWAS meta-analysis using SMetABF is developed based on R Shiny. You can use the tool at https://sunjianle-sjtu.shinyapps.io/analycode/. Please uplaod your file according to the example format. The example data can be found at the folder https://github.com/sjl-sjtu/GWAS_meta/tree/main/data.
