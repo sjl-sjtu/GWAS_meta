@@ -1,5 +1,5 @@
 # GWAS_meta: A rapid Bayesian methods for subset selection and GWAS meta-analysis.
-This package provids three methods to get optimal ABF of single SNP and a phenotype in Bayesian GWAS meta-analysis including Subset-Exhaustive, MCMC and shotgun stochastic search. 
+This package provids three methods to get optimal ABF for the variant-trait association in Bayesian GWAS meta-analysis across numerous studies. The three approaches include Subset-Exhaustive, MCMC and Shotgun Stochastic Search. 
 
 Install the package as the following:
 ```R
