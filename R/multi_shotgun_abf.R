@@ -66,5 +66,5 @@ multi_shotgun_abf <- function(df,vname=1,vbetas=seq(2,ncol(df),2),vses=seq(3,nco
   abf$ABF <- as.numeric(abf$ABF)
   abf$ABF <- round(abf$ABF,4)
   abf <- arrange(abf,desc(ABF))
-  return(df)
+  return(abf)
 }
