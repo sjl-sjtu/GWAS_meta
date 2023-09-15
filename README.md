@@ -22,4 +22,4 @@ This package is available under the GNU General Public License version 3.
 
 The latest updation for the package is at Feb. 27th, 2023.
 
-Contact me: Jianle Sun (sjl-2017@sjtu.edu.cn)
+If there is any problem, please contact me: Jianle Sun (sjl-2017@sjtu.edu.cn)
