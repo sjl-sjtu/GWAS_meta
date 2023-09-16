@@ -174,8 +174,11 @@ shotgun_abf_model<-function(betas,ses,prior.sigma=0.3,prior.cor="indep",prior.rh
   ind<-intersect(which(!is.na(betas)),which(!is.na(ses)))
   nind<-union(which(is.na(betas)),which(is.na(ses)))
   n<-length(ind)
-  if(n<=1){
-    return(NA)
+  if(n<1){
+    return(list(ABF=NA,model="NA"))
+  }
+  if(n==1){
+    return(list(ABF=betas[ind],model="1"))
   }
 
   b<-betas[ind]
