@@ -62,9 +62,11 @@ An web tool to conduct GWAS meta-analysis using SMetABF is developed based on R 
 
 ## Reference
 <div id="rf1"></div>
-[1] Sun, J., Lyu, R., Deng, L., Li, Q., Zhao, Y., & Zhang, Y. (2022). SMetABF: A rapid algorithm for Bayesian GWAS meta-analysis with a large number of studies included. <i>PLoS computational biology</i>, 18(3), e1009948. https://doi.org/10.1371/journal.pcbi.1009948
+[1] Sun, J., Lyu, R., Deng, L., Li, Q., Zhao, Y., & Zhang, Y. (2022). SMetABF: A rapid algorithm for Bayesian GWAS meta-analysis with a large number of studies included. <i>PLoS Computational Biology</i>, 18(3), e1009948. https://doi.org/10.1371/journal.pcbi.1009948
 <div id="rf2"></div>
-[2] Trochet, H., Pirinen, M., Band, G., Jostins, L., McVean, G., & Spencer, C. (2019). Bayesian meta-analysis across genome-wide association studies of diverse phenotypes. <i>Genetic epidemiology</i>, 43(5), 532–547. https://doi.org/10.1002/gepi.22202
+[2] Trochet, H., Pirinen, M., Band, G., Jostins, L., McVean, G., & Spencer, C. (2019). Bayesian meta-analysis across genome-wide association studies of diverse phenotypes. <i>Genetic Epidemiology</i>, 43(5), 532–547. https://doi.org/10.1002/gepi.22202
+<div id="rf3"></div>
+[3] Hans, C., Dobra, A., & West, M. (2007). Shotgun stochastic search for "large p" regression. <i>Journal of the American Statistical Association</i>, 102(478), 507-516. https://doi.org/10.1198/016214507000000121
 
 ## Lisence
 This package is available under the GNU General Public License version 3.
