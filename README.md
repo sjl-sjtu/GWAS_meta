@@ -40,7 +40,7 @@ The result will return a list, the first element is the calculated ABF, and the 
 
 There are some important parameters that can be specified, including
 * `prior.sigma`: the prior variance of the impact of each study
-* `prior.cor`, the specification of the relationship between studies in the subset, which can be specified as `indep` (independent effect), `fixed` (fixed effect) or `correlated` (correlated effect). When specifying the model with a correlation effect, you can specify the prior of the correlation coefficient by specifying `prior.rho`. In addition,  ​​
+* `prior.cor`, the specification of the relationship between studies in the subset, which can be specified as `indep` (independent effect), `fixed` (fixed effect) or `correlated` (correlated effect). When specifying the model with a correlation effect, you can specify the prior of the correlation coefficient by specifying `prior.rho`. ​​
 * `log` and `log10`: two Boolean values used to specify whether the calculated ABF should be taken as the natural logarithm or the common logarithm before output.
 
 ### 2. GWAS meta-analysis for multiple loci
