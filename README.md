@@ -18,6 +18,7 @@ Usage and examples can be found at https://github.com/sjl-sjtu/GWAS_meta/blob/ma
 ## Tutorial
 ### 1. GWAS meta-analysis for single locus
 First you need to organize the data set. As shown in the figure below,  with each row corresponding to a study, the organized dataset should contain two columns. The first column is the effect size ($\beta$) between the SNP and the phenotype obtained in each study, which is usually the coefficient of linear regression, or Log OR value in logistic regression. The second column is the standard error of $\beta$ in the corresponding study in the first column.
+
 ![image](https://github.com/sjl-sjtu/GWAS_meta/blob/main/software/www/single.png)
 
 Here is an example using the built-in sample dataset
@@ -44,6 +45,7 @@ There are some important parameters that can be specified, including
 
 ### 2. GWAS meta-analysis for multiple loci
 First, you need to organize the data, as shown in the figure below. Each row represents a SNP (locus). The first column is the name of the SNP, and every two columns after that represent the effect size ($\beta$) of each SNP on the phenotype in a study and the corresponding estimation standard (se), i.e., the second column is the estimated effect size of each SNP on the trait in the first study, the third column is the estimated standard error of the corresponding SNP's effect on the trait in the first study, and the fourth column is the estimated effect value of each SNP on the trait in the second study, and the 5th column is the estimated standard error of the corresponding SNP's effect on the trait in the second study, and so on. Missing values ​​are represented by NA.
+
 ![image](https://github.com/sjl-sjtu/GWAS_meta/blob/main/software/www/multiple.png)
 
 Here is an example using the built-in sample dataset
