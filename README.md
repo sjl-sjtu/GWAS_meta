@@ -16,7 +16,7 @@ library(GWASmeta)
 Usage and examples can be found at https://github.com/sjl-sjtu/GWAS_meta/blob/main/GWASmeta_0.1.0.pdf. You can cite the work and find more methodological details about the package at [[1]](#rf1). This package is modified based on the Bayesian meta-analysis package "metabf" which is available at https://github.com/trochet/metabf. We appreciate the authors' work and details about the original edition can be found at [[2]](#rf2).
 
 ## Tutorial
-### 1. GWAS meta-analysis for single locus
+### 1. GWAS meta-analysis for a single locus
 First you need to organize the data set. As shown in the figure below,  with each row corresponding to a study, the organized dataset should contain two columns. The first column is the effect size ($\beta$) between the SNP and the phenotype obtained in each study, which is usually the coefficient of linear regression, or Log OR value in logistic regression. The second column is the standard error of $\beta$ in the corresponding study in the first column.
 
 ![image](https://github.com/sjl-sjtu/GWAS_meta/blob/main/software/www/single.png)
