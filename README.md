@@ -58,7 +58,7 @@ The result is a data frame, including the name of each SNP, the calculated ABF, 
 ## Online Software
 An web tool to conduct GWAS meta-analysis using SMetABF is developed based on R Shiny. You can use the tool at https://sunjianle-sjtu.shinyapps.io/analycode/. Please uplaod your file according to the example format. The example data can be found at the folder https://github.com/sjl-sjtu/GWAS_meta/tree/main/data. The output data frame is consistent with the output of the above code.
 
-**Note**: Please do not run large datasets on online tools!
+**Note**: Please do not run large datasets on the online RShiny tool!
 
 ## Reference
 <div id="rf1"></div>
