@@ -1,4 +1,4 @@
-# GWAS_meta: A rapid Bayesian methods for subset selection and GWAS meta-analysis.
+# GWASmeta: A rapid Bayesian methods for subset selection and GWAS meta-analysis.
 This package provids three methods to get optimal ABF for the variant-trait association in Bayesian GWAS meta-analysis across numerous studies. The three approaches include Subset-Exhaustive, MCMC and Shotgun Stochastic Search. 
 
 Latest revision: Jan. 24th, 2024.
